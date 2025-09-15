@@ -1,0 +1,240 @@
+<!doctype html>
+
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ditzy All-in-One — Green Edition</title>
+  <meta name="description" content="Text tools, world clock, jadwal sholat, arah kiblat, dan music background — semua dalam 1 file HTML." />
+  <style>
+    :root{--green1:#2e7d32;--green2:#43a047;--mint:#c8e6c9;--accent:#ffd54f;--card:rgba(255,255,255,0.06)}
+    html,body{height:100%;margin:0;font-family:Inter, 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;background:linear-gradient(135deg,var(--green1),var(--green2) 45%,var(--mint));-webkit-font-smoothing:antialiased}
+    .wrap{max-width:1100px;margin:28px auto;padding:18px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    header h1{margin:0;color:white;font-size:20px}
+    header p{margin:0;color:rgba(255,255,255,0.9)}
+    .layout{display:grid;grid-template-columns:1fr 340px;gap:16px;margin-top:18px}
+    @media(max-width:900px){.layout{grid-template-columns:1fr}}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03));border-radius:12px;padding:14px;box-shadow:0 8px 30px rgba(0,0,0,0.12);color:#053}
+    .card h2{margin:0 0 8px 0;color:#063}
+    .controls{display:flex;flex-wrap:wrap;gap:8px}
+    button{background:linear-gradient(90deg,var(--accent),#ffd180);border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700}
+    .muted{color:rgba(5,48,5,0.7)}
+    textarea,input[type=text],select,input[type=number]{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);font-size:14px}
+    .result{min-height:120px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02);margin-top:10px;color:#063;white-space:pre-wrap}
+    .small{font-size:13px}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.08);color:#fff;font-weight:700}
+    .footer{margin-top:12px;text-align:center;color:#053}
+    #musicToggle{background:transparent;border:2px solid rgba(0,0,0,0.06);padding:8px 10px}
+    .feature-btn{background:transparent;border:2px solid rgba(0,0,0,0.06);padding:8px 10px;border-radius:10px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>✨ Ditzy All-in-One — Green Edition</h1>
+        <p class="small">Text tools • Jam Dunia • Jadwal Sholat • Arah Kiblat • Musik Latar</p>
+      </div>
+      <div>
+        <span class="pill">Jangan rusak ya 😉</span>
+      </div>
+    </header><div class="layout">
+  <!-- main -->
+  <main>
+    <section class="card">
+      <h2>1) Fitur Teks</h2>
+      <div class="controls" style="margin-bottom:10px">
+        <button class="feature-btn" data-act="repeat">🔁 Repeat</button>
+        <button class="feature-btn" data-act="letters">🔡 Letters</button>
+        <button class="feature-btn" data-act="shuffle">🔀 Shuffle</button>
+        <button class="feature-btn" data-act="bold">🅱️ Bold</button>
+        <button class="feature-btn" data-act="emot">😊 Emoticons</button>
+        <button class="feature-btn" data-act="random">🎲 Random</button>
+      </div>
+
+      <label class="small">Teks</label>
+      <textarea id="txtInput" rows="4" placeholder="Tulis teks...">Assalamu'alaikum</textarea>
+
+      <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
+        <div style="flex:1">
+          <label class="small">Jumlah Ulang</label>
+          <input id="txtCount" type="number" min="1" value="3" />
+        </div>
+        <div style="flex:1">
+          <label class="small">Separator</label>
+          <select id="txtSep"><option value="\n">Baris Baru</option><option value=", ">Koma</option><option value=" ">Spasi</option><option value="\n\n">Baris Kosong</option></select>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <button id="genTxt">🚀 Generate</button>
+          <button id="copyTxt">📋 Copy</button>
+        </div>
+      </div>
+
+      <h3 style="margin-top:10px">Hasil</h3>
+      <div id="txtResult" class="result"></div>
+    </section>
+
+    <section class="card" style="margin-top:12px">
+      <h2>2) Musik Latar</h2>
+      <p class="small muted">Pastikan file MP3 ada di folder yang sama dengan file HTML.</p>
+      <audio id="player" loop>
+        <source src="Juicy%20Luicy%20-%20Lantas%20(Official%20Lyric%20Video)%20-%20Emotion%20Entertainment.mp3" type="audio/mpeg">
+      </audio>
+      <div style="display:flex;gap:8px;align-items:center;margin-top:8px">
+        <button id="musicToggle">🔊 Play / Pause</button>
+        <label class="small">Volume</label>
+        <input id="musicVol" type="range" min="0" max="1" step="0.01" value="0.18" style="width:160px">
+        <input id="musicUrl" type="text" placeholder="(optional) url mp3" style="flex:1">
+        <button id="setMusic">Set</button>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:12px">
+      <h2>3) Arah Kiblat & Jadwal Sholat</h2>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <button id="getLoc">📍 Gunakan Lokasi Saya</button>
+        <input id="cityForPrayer" type="text" placeholder="Ketik kota (misal: Jakarta)" style="flex:1" />
+        <button id="getPrayers">🕋 Tampilkan Jadwal</button>
+      </div>
+
+      <div style="margin-top:10px;display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap">
+        <div style="flex:1">
+          <div id="prayerResult" class="result small">Jadwal sholat akan muncul di sini.</div>
+        </div>
+        <div style="width:220px">
+          <canvas id="compass" width="220" height="220" style="background:radial-gradient(circle,#fff2,#fff0);border-radius:12px"></canvas>
+          <div class="small muted">Arah kiblat ditunjukkan sebagai panah pada kompas di atas ketika lokasi tersedia.</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- aside -->
+  <aside>
+    <div class="card">
+      <h2>4) Jam Dunia</h2>
+      <label class="small">Ketik kota</label>
+      <input id="cityClock" type="text" placeholder="contoh: Jakarta, London" />
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="showClock">🕒 Tampilkan Jam</button>
+        <button id="listTZ">📚 Daftar Kota</button>
+      </div>
+      <div id="clockOut" class="result small" style="margin-top:10px">--</div>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <h2>Tentang</h2>
+      <p class="small muted">Versi satu-file. Untuk fitur lebih lengkap (notifikasi, adzan otomatis, atau API musik) bisa sambungkan server/hosting.</p>
+      <p class="small">Developer: <a href="https://t.me/ariks_ta" target="_blank">@ariks_ta</a></p>
+    </div>
+  </aside>
+</div>
+
+<div class="footer">File MP3 yang digunakan: <strong>Juicy Luicy - Lantas (Official Lyric Video) - Emotion Entertainment.mp3</strong></div>
+
+  </div>  <script>
+    // ---------- TEXT FEATURES ----------
+    const features = document.querySelectorAll('[data-act]');
+    let active = 'repeat';
+    features.forEach(b=>b.addEventListener('click', ()=>{active=b.dataset.act;features.forEach(x=>x.style.opacity=0.8);b.style.opacity=1;}));
+    document.querySelector('[data-act="repeat"]').style.opacity=1;
+
+    const txtInput = document.getElementById('txtInput');
+    const txtCount = document.getElementById('txtCount');
+    const txtSep = document.getElementById('txtSep');
+    const genTxt = document.getElementById('genTxt');
+    const txtResult = document.getElementById('txtResult');
+    const copyTxt = document.getElementById('copyTxt');
+
+    function toBold(s){
+      const A='ABCDEFGHIJKLMNOPQRSTUVWXYZ', a='abcdefghijklmnopqrstuvwxyz';
+      const boldAStart=0x1D400, boldaStart=0x1D41A; let out='';
+      for(let ch of s){
+        if(A.includes(ch)) out += String.fromCodePoint(boldAStart + A.indexOf(ch));
+        else if(a.includes(ch)) out += String.fromCodePoint(boldaStart + a.indexOf(ch));
+        else out += ch;
+      }
+      return out;
+    }
+
+    genTxt.addEventListener('click', ()=>{
+      const txt = txtInput.value || '';
+      const n = Math.max(1, parseInt(txtCount.value)||1);
+      const sep = txtSep.value.replace(/\\n/g,'\n');
+      let out='';
+      switch(active){
+        case 'repeat': out = Array(n).fill(txt).join(sep); break;
+        case 'letters': out = txt.split('').map(ch=>ch.repeat(n)).join(''); break;
+        case 'shuffle': let arr=txt.split(/\\s+/).filter(Boolean); for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];} out=arr.join(' '); break;
+        case 'bold': out = toBold(txt); break;
+        case 'emot': const em=['😊','😂','😍','🤲','🕌','✨','🌙','🙏','💫','🎵']; out = Array(n).fill(0).map(()=>txt + ' ' + em[Math.floor(Math.random()*em.length)]).join(sep); break;
+        case 'random': const words=['assalamualaikum','salam','hello','ditzy','generator','musik','keren','viral','semangat','barokah']; out = Array(n).fill(0).map(()=>words[Math.floor(Math.random()*words.length)]).join(' '); break;
+        default: out = txt;
+      }
+      txtResult.textContent = out;
+    });
+
+    copyTxt.addEventListener('click', async ()=>{
+      try{ await navigator.clipboard.writeText(txtResult.textContent||''); copyTxt.textContent='✅ Copied'; setTimeout(()=>copyTxt.textContent='📋 Copy',900);}catch(e){alert('Copy gagal. Coba manual.')}
+    });
+
+    // ---------- MUSIC ----------
+    const player = document.getElementById('player');
+    const musicToggle = document.getElementById('musicToggle');
+    const musicVol = document.getElementById('musicVol');
+    const musicUrl = document.getElementById('musicUrl');
+    const setMusic = document.getElementById('setMusic');
+
+    player.volume = parseFloat(musicVol.value);
+    musicVol.addEventListener('input', ()=>player.volume = parseFloat(musicVol.value));
+
+    async function tryAutoplay(){
+      try{ await player.play(); musicToggle.textContent='⏸️ Pause'; }catch(e){ musicToggle.textContent='🔊 Play'; }
+    }
+    tryAutoplay();
+
+    musicToggle.addEventListener('click', ()=>{
+      if(player.paused){ player.play().catch(()=>{}); musicToggle.textContent='⏸️ Pause'; } else { player.pause(); musicToggle.textContent='🔊 Play'; }
+    });
+
+    setMusic.addEventListener('click', ()=>{
+      const url = musicUrl.value.trim(); if(!url){alert('Masukkan URL mp3');return}
+      player.src = url; player.play().catch(()=>{}); musicToggle.textContent='⏸️ Pause';
+    });
+
+    // ---------- WORLD CLOCK ----------
+    const cityToTZ = {
+      'jakarta':'Asia/Jakarta','jakarta, indonesia':'Asia/Jakarta','mecca':'Asia/Riyadh','makkah':'Asia/Riyadh','london':'Europe/London','paris':'Europe/Paris','new york':'America/New_York','los angeles':'America/Los_Angeles','tokyo':'Asia/Tokyo','dubai':'Asia/Dubai','kuala lumpur':'Asia/Kuala_Lumpur','singapore':'Asia/Singapore','cairo':'Africa/Cairo','riyadh':'Asia/Riyadh'
+    };
+    const cityClock = document.getElementById('cityClock');
+    const showClock = document.getElementById('showClock');
+    const clockOut = document.getElementById('clockOut');
+    const listTZ = document.getElementById('listTZ');
+
+    function formatTZ(tz){ try{ const now=new Date(); const dtf=new Intl.DateTimeFormat([], {timeZone:tz, hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false, weekday:'short', day:'2-digit', month:'short', year:'numeric'}); return dtf.format(now);}catch(e){return null} }
+
+    showClock.addEventListener('click', ()=>{
+      const q=(cityClock.value||'').trim().toLowerCase(); if(!q){alert('Isi nama kota, contoh: Jakarta');return}
+      const tz=cityToTZ[q]; if(!tz){clockOut.textContent='Kota tidak ditemukan. Coba: Jakarta, Mekkah, London, Tokyo, New York';return}
+      clockOut.textContent = formatTZ(tz) + '\nZona waktu: ' + tz;
+    });
+
+    listTZ.addEventListener('click', ()=>{ alert('Contoh kota: ' + Object.keys(cityToTZ).slice(0,30).join(', ')); });
+
+    // ---------- PRAYER TIMES & QIBLA ----------
+    const cityForPrayer = document.getElementById('cityForPrayer');
+    const getPrayers = document.getElementById('getPrayers');
+    const prayerResult = document.getElementById('prayerResult');
+    const getLoc = document.getElementById('getLoc');
+    const compass = document.getElementById('compass');
+    const ctx = compass.getContext('2d');
+
+    function drawCompass(angleDeg){
+      const w=compass.width, h=compass.height; ctx.clearRect(0,0,w,h);
+      ctx.save(); ctx.translate(w/2,h/2);
+      ctx.beginPath(); ctx.arc(0,0,90,0,Math.PI*2); ctx.fillStyle='white'; ctx.globalAlpha=0.06; ctx.fill(); ctx.globalAlpha=1;
+      ctx.font='14px sans-serif'; ctx.fillStyle='#063'; ctx.textAlign='center'; ctx.fillText('N',0,-76);
+      ctx.save(); ctx.rotate((angleDeg-90)*Math.PI/180);
+      ctx.beginPath(); ctx.moveTo(0,-60); ctx.lineTo(10,0); ctx.lineTo(0,10); ctx.lineTo(-10,0); ctx.closePath(); ctx.fill
